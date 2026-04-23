@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Behind EasyPanel reverse proxy, ensure generated asset URLs use HTTPS.
+        if (app()->environment('production')) {
+            $proto = request()->header('x-forwarded-proto');
+            if ($proto === 'https') {
+                URL::forceScheme('https');
+            }
+        }
+
         Validator::extend('cpf', function ($attribute, $value, $parameters, $validator) {
             $c = preg_replace('/\D/', '', $value);
             if (strlen($c) != 11 || preg_match("/^{$c[0]}{11}$/", $c)) return false;

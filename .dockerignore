@@ -7,9 +7,7 @@ storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
 .env
-.env.local
-.env.local.php
-.env.production
+.env.*
 npm-debug.log
 yarn-error.log
 docker-compose.yml

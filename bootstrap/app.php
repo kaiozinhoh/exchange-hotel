@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'debug' => \App\Http\Middleware\DebugMiddleware::class,
         ]);
         $middleware->web(append: [
+            \App\Http\Middleware\TrustProxies::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
