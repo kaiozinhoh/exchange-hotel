@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Hotel Premium Color Palette */
+    --background: 0 0% 98%;
+    --foreground: 220 15% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 20%;
+    --primary: 200 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 30% 96%;
+    --secondary-foreground: 220 15% 20%;
+    --muted: 210 30% 96%;
+    --muted-foreground: 220 8% 60%;
+    --accent: 200 100% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 200 100% 45%;
+    --info-foreground: 0 0% 100%;
+    --border: 210 30% 92%;
+    --input: 210 30% 92%;
+    --ring: 200 100% 45%;
+    --sidebar: 220 15% 15%;
+    --sidebar-foreground: 210 30% 96%;
+    --sidebar-border: 220 15% 25%;
+    --chart-1: 200 100% 45%;
+    --chart-2: 142 76% 36%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 0 75% 55%;
+    --chart-5: 220 15% 45%;
+    --radius: 0.75rem;
+    --shadow-hotel: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 210 30% 96%;
+    --card: 220 15% 10%;
+    --card-foreground: 210 30% 96%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 210 30% 96%;
+    --primary: 200 100% 55%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 30% 96%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 200 100% 55%;
+    --accent-foreground: 220 15% 8%;
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 210 30% 96%;
+    --success: 142 76% 46%;
+    --success-foreground: 220 15% 8%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 220 15% 8%;
+    --info: 200 100% 55%;
+    --info-foreground: 220 15% 8%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 200 100% 55%;
+    --sidebar: 220 15% 5%;
+    --sidebar-foreground: 210 30% 96%;
+    --sidebar-border: 220 15% 15%;
+    --chart-1: 200 100% 55%;
+    --chart-2: 142 76% 46%;
+    --chart-3: 38 92% 60%;
+    --chart-4: 0 75% 60%;
+    --chart-5: 220 15% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    @apply antialiased font-sans;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  input, select, textarea {
+    @apply bg-card border-input text-foreground placeholder-muted-foreground;
+  }
+}
+
+@layer components {
+  /* Hotel Card Component */
+  .hotel-card {
+    @apply bg-card border border-border rounded-xl shadow-hotel hover:shadow-lg transition-all duration-300;
+  }
+  
+  /* Hotel Button Component */
+  .hotel-btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .hotel-btn-primary {
+    @apply hotel-btn bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm;
+  }
+  
+  .hotel-btn-secondary {
+    @apply hotel-btn bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+  
+  /* Hotel Sidebar Component */
+  .hotel-sidebar {
+    @apply bg-sidebar border-r border-sidebar-border;
+  }
+  
+  .hotel-sidebar-link {
+    @apply flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
+  }
+  
+  .hotel-sidebar-link-active {
+    @apply hotel-sidebar-link bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  
+  /* Hotel Header Component */
+  .hotel-header {
+    @apply bg-card border-b border-border shadow-sm;
+  }
+  
+  /* Hotel Status Indicators */
+  .hotel-status-available {
+    @apply bg-success/10 text-success border border-success/20;
+  }
+  
+  .hotel-status-occupied {
+    @apply bg-destructive/10 text-destructive border border-destructive/20;
+  }
+  
+  .hotel-status-maintenance {
+    @apply bg-warning/10 text-warning border border-warning/20;
+  }
+  
+  /* Hotel Table Component */
+  .hotel-table {
+    @apply w-full border-collapse;
+  }
+  
+  .hotel-table th {
+    @apply px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider bg-muted/50 border-b border-border;
+  }
+  
+  .hotel-table td {
+    @apply px-4 py-3 text-sm border-b border-border;
+  }
+  
+  /* Hotel Form Component */
+  .hotel-form-group {
+    @apply space-y-2;
+  }
+  
+  .hotel-form-label {
+    @apply text-sm font-medium text-foreground;
+  }
+  
+  .hotel-form-input {
+    @apply w-full px-3 py-2 text-sm bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200;
+  }
+}
