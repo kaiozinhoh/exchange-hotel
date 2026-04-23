@@ -33,6 +33,7 @@ WORKDIR /app
 RUN install-php-extensions pdo_mysql mbstring bcmath intl gd zip opcache pcntl
 
 COPY . .
+COPY .env.example .env.example
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=vendor /app/bootstrap/cache ./bootstrap/cache
 COPY --from=frontend /app/public/build ./public/build
