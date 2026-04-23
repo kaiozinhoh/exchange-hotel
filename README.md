@@ -71,21 +71,22 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 🙏 Agradecimentos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [Laravel](https://laravel.com/) - Framework PHP incrível
+- [React](https://reactjs.org/) - Biblioteca JavaScript poderosa
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS fantástico
+- [Inertia.js](https://inertiajs.com/) - SPA sem complexidade
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<div align="center">
 
-## Laravel Sponsors
+**Desenvolvido com ❤️ por [Kaio Oliveira](https://github.com/kaiozinhoh)**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+[⭐ Star este projeto](https://github.com/kaiozinhoh/exchange-hotel) • [🐛 Reportar Issue](https://github.com/kaiozinhoh/exchange-hotel/issues) • [📧 Contato](mailto:kaio@exhangehotel.com)
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
+</div>
 - **[Tighten Co.](https://tighten.co)**
 - **[WebReinvent](https://webreinvent.com/)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
