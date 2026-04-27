@@ -13,7 +13,8 @@ import {
     Settings,
     Save,
     Trash2,
-    UserPlus
+    UserPlus,
+    BedDouble
 } from 'lucide-react';
 import { Link, router } from '@inertiajs/react';
 
@@ -283,6 +284,13 @@ export default function EditHotel({ hotel }) {
                                     <CardTitle>Ações</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-3">
+                                    <Link href={route('superadmin.hotels.rooms.index', hotel.id)}>
+                                        <Button variant="outline" className="w-full">
+                                            <BedDouble className="h-4 w-4 mr-2" />
+                                            Gerenciar Quartos
+                                        </Button>
+                                    </Link>
+
                                     <Button type="submit" className="w-full">
                                         <Save className="h-4 w-4 mr-2" />
                                         Salvar Alterações

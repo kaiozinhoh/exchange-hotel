@@ -9,20 +9,6 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    public function __construct()
-    {
-        // Somente o dono do SaaS (super_admin) pode criar quartos
-        $this->middleware(function (Request $request, $next) {
-            $action = $request->route()?->getActionMethod();
-
-            if (in_array($action, ['create', 'store'], true)) {
-                abort_unless($request->user()?->isSuperAdmin(), 403);
-            }
-
-            return $next($request);
-        });
-    }
-
     public function index(Request $request)
     {
         $query = Room::query();
@@ -62,11 +48,13 @@ class RoomController extends Controller
 
     public function create()
     {
+        abort_unless(request()->user()?->isSuperAdmin(), 403);
         return Inertia::render('Rooms/Form');
     }
 
     public function store(StoreRoomRequest $request)
     {
+        abort_unless($request->user()?->isSuperAdmin(), 403);
         Room::create([
             ...$request->validated(),
             'hotel_id' => $request->user()->hotel_id,

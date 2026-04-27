@@ -28,7 +28,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 // Rotas Super Admin (acesso global)
-Route::middleware(['auth'])->prefix('superadmin')->name('superadmin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin'])->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/hotels', [SuperAdminController::class, 'hotels'])->name('hotels');
     Route::get('/hotels/create', [SuperAdminController::class, 'createHotel'])->name('hotels.create');
@@ -37,6 +37,14 @@ Route::middleware(['auth'])->prefix('superadmin')->name('superadmin.')->group(fu
     Route::put('/hotels/{hotel}', [SuperAdminController::class, 'updateHotel'])->name('hotels.update');
     Route::post('/hotels/{hotel}/toggle-status', [SuperAdminController::class, 'toggleHotelStatus'])->name('hotels.toggle-status');
     Route::post('/hotels/{hotel}/extend-trial', [SuperAdminController::class, 'extendTrial'])->name('hotels.extend-trial');
+
+    // Quartos por hotel (Super Admin)
+    Route::get('/hotels/{hotel}/rooms', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'index'])->name('hotels.rooms.index');
+    Route::get('/hotels/{hotel}/rooms/create', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'create'])->name('hotels.rooms.create');
+    Route::post('/hotels/{hotel}/rooms', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'store'])->name('hotels.rooms.store');
+    Route::get('/hotels/{hotel}/rooms/{room}/edit', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'edit'])->name('hotels.rooms.edit');
+    Route::put('/hotels/{hotel}/rooms/{room}', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'update'])->name('hotels.rooms.update');
+    Route::delete('/hotels/{hotel}/rooms/{room}', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'destroy'])->name('hotels.rooms.destroy');
     
     Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
     Route::get('/users/create', [SuperAdminController::class, 'createUser'])->name('users.create');
