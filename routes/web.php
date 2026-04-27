@@ -45,6 +45,9 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('superadmin')->name('sup
     Route::get('/hotels/{hotel}/rooms/{room}/edit', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'edit'])->name('hotels.rooms.edit');
     Route::put('/hotels/{hotel}/rooms/{room}', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'update'])->name('hotels.rooms.update');
     Route::delete('/hotels/{hotel}/rooms/{room}', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'destroy'])->name('hotels.rooms.destroy');
+    Route::post('/hotels/{hotel}/rooms/bulk', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'bulkStore'])->name('hotels.rooms.bulkStore');
+    Route::patch('/hotels/{hotel}/rooms/bulk', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'bulkUpdate'])->name('hotels.rooms.bulkUpdate');
+    Route::delete('/hotels/{hotel}/rooms/bulk', [\App\Http\Controllers\SuperAdmin\HotelRoomController::class, 'bulkDestroy'])->name('hotels.rooms.bulkDestroy');
     
     Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
     Route::get('/users/create', [SuperAdminController::class, 'createUser'])->name('users.create');
