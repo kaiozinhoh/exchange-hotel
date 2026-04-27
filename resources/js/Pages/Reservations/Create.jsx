@@ -18,6 +18,8 @@ export default function CreateReservation({ guests, rooms, parkingSpaces, paymen
         check_in: filters?.check_in || '', // Mantém o valor se vier do backend (filtro)
         check_out: filters?.check_out || '',
         total_price: 0,
+        pricing_mode: 'room', // room | custom
+        custom_daily_price: '',
         parking_space_id: '',
         initial_payment: '',
         payment_method_id: ''
@@ -80,7 +82,10 @@ export default function CreateReservation({ guests, rooms, parkingSpaces, paymen
         if (days > 0 && data.room_id && rooms) {
             const room = rooms.find(r => String(r.id) === String(data.room_id));
             if (room) {
-                rTotal = days * parseFloat(room.price_per_night || 0);
+                const roomDaily = parseFloat(room.price_per_night || 0);
+                const customDaily = parseFloat(data.custom_daily_price || 0);
+                const dailyToUse = data.pricing_mode === 'custom' ? (customDaily || 0) : roomDaily;
+                rTotal = days * dailyToUse;
             }
         }
         setRoomTotal(rTotal);
@@ -97,7 +102,15 @@ export default function CreateReservation({ guests, rooms, parkingSpaces, paymen
         // Atualiza o total no formulário
         setData(prev => ({ ...prev, total_price: rTotal + pTotal }));
 
-    }, [data.check_in, data.check_out, data.room_id, data.parking_space_id, rooms]); // Adicionei 'rooms' nas dependências
+    }, [
+        data.check_in,
+        data.check_out,
+        data.room_id,
+        data.parking_space_id,
+        data.pricing_mode,
+        data.custom_daily_price,
+        rooms
+    ]); // Adicionei 'rooms' nas dependências
 
     // 3. Envio do Formulário
     const submit = (e) => {
@@ -208,6 +221,53 @@ export default function CreateReservation({ guests, rooms, parkingSpaces, paymen
                                         </SelectContent>
                                     </Select>
                                     {errors.room_id && <span className="text-red-500 text-sm">{errors.room_id}</span>}
+                                </div>
+
+                                {/* Preço (Diária padrão vs custom) */}
+                                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                    <h3 className="text-md font-medium text-gray-900 mb-3">
+                                        💵 Preço da Diária
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                                        <div>
+                                            <Label>Modo</Label>
+                                            <select
+                                                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                                value={data.pricing_mode}
+                                                onChange={(e) => {
+                                                    const mode = e.target.value;
+                                                    setData('pricing_mode', mode);
+
+                                                    // UX: ao mudar para "custom", já sugere o valor do quarto selecionado
+                                                    if (mode === 'custom' && data.room_id && rooms) {
+                                                        const room = rooms.find(r => String(r.id) === String(data.room_id));
+                                                        if (room) {
+                                                            setData('custom_daily_price', String(parseFloat(room.price_per_night || 0).toFixed(2)));
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                <option value="room">Manter valor do quarto</option>
+                                                <option value="custom">Alterar diária para esta reserva</option>
+                                            </select>
+                                            {errors.pricing_mode && <span className="text-red-500 text-sm">{errors.pricing_mode}</span>}
+                                        </div>
+
+                                        {data.pricing_mode === 'custom' && (
+                                            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                                <Label>Diária personalizada (R$)</Label>
+                                                <Input
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0"
+                                                    value={data.custom_daily_price}
+                                                    onChange={(e) => setData('custom_daily_price', e.target.value)}
+                                                    placeholder="0.00"
+                                                />
+                                                {errors.custom_daily_price && <span className="text-red-500 text-sm">{errors.custom_daily_price}</span>}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Estacionamento */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, router } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
@@ -18,6 +18,8 @@ const getStatusConfig = (status) => {
 };
 
 export default function RoomIndex({ rooms }) {
+    const { auth } = usePage().props;
+    const canCreateRoom = auth?.user?.role === 'super_admin';
 
     const handleDelete = (id) => {
         if (confirm('Remover este quarto?')) {
@@ -34,11 +36,13 @@ export default function RoomIndex({ rooms }) {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Quartos</CardTitle>
-                            <Link href={route('rooms.create')}>
-                                <Button>
-                                    <PlusCircle className="w-4" />Novo
-                                </Button>
-                            </Link>
+                            {canCreateRoom && (
+                                <Link href={route('rooms.create')}>
+                                    <Button>
+                                        <PlusCircle className="w-4" />Novo
+                                    </Button>
+                                </Link>
+                            )}
                         </CardHeader>
                         <CardContent>
 

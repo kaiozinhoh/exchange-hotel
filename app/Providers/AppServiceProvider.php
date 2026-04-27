@@ -22,12 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Behind EasyPanel reverse proxy, ensure generated asset URLs use HTTPS.
+        // Production behind reverse proxy (EasyPanel): always generate HTTPS URLs.
         if (app()->environment('production')) {
-            $proto = request()->header('x-forwarded-proto');
-            if ($proto === 'https') {
-                URL::forceScheme('https');
-            }
+            URL::forceScheme('https');
         }
 
         Validator::extend('cpf', function ($attribute, $value, $parameters, $validator) {

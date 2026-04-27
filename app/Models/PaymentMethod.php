@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToHotel;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentMethod extends Model
 {
-    use BelongsToHotel;
-
-    protected $fillable = ['hotel_id', 'name', 'slug', 'active'];
+    // Métodos de pagamento são globais (slug é unique), então não devem ser filtrados por hotel_id
+    protected $fillable = ['name', 'slug', 'active'];
 }

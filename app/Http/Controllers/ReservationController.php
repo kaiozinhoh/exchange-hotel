@@ -10,6 +10,7 @@ use App\Models\ParkingSpace;
 use App\Models\ParkingAssignment;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -107,7 +108,8 @@ class ReservationController extends Controller
             'room_id' => 'required|exists:rooms,id',
             'check_in' => 'required|date|after_or_equal:today',
             'check_out' => 'required|date|after:check_in',
-            'total_price' => 'required|numeric|min:0',
+            'pricing_mode' => 'required|in:room,custom',
+            'custom_daily_price' => 'nullable|required_if:pricing_mode,custom|numeric|min:0',
             'parking_space_id' => 'nullable|exists:parking_spaces,id',
             'initial_payment' => 'nullable|numeric|min:0',
             'payment_method_id' => 'nullable|required_with:initial_payment|exists:payment_methods,id'
@@ -138,6 +140,28 @@ class ReservationController extends Controller
                 throw new \RuntimeException('Hóspede e quarto pertencem a hotéis diferentes.');
             }
 
+            // Cálculo seguro do valor (não confiar no total do front)
+            $checkIn = Carbon::parse($validated['check_in'])->startOfDay();
+            $checkOut = Carbon::parse($validated['check_out'])->startOfDay();
+            $days = $checkIn->diffInDays($checkOut);
+            if ($days < 1) {
+                $days = 1;
+            }
+
+            $roomDaily = $validated['pricing_mode'] === 'custom'
+                ? (float) $validated['custom_daily_price']
+                : (float) $room->price_per_night;
+
+            $roomTotal = $days * $roomDaily;
+
+            $parkingTotal = 0;
+            if (!empty($validated['parking_space_id'])) {
+                $space = ParkingSpace::findOrFail($validated['parking_space_id']);
+                $parkingTotal = $days * (float) $space->price_per_day;
+            }
+
+            $totalPrice = $roomTotal + $parkingTotal;
+
             // 1. Cria a Reserva
             $reservation = Reservation::create([
                 'hotel_id' => $room->hotel_id,
@@ -145,8 +169,8 @@ class ReservationController extends Controller
                 'room_id' => $validated['room_id'],
                 'check_in' => $validated['check_in'],
                 'check_out' => $validated['check_out'],
-                'total_price' => $validated['total_price'],
-                'daily_price_snapshot' => $room->price_per_night,
+                'total_price' => $totalPrice,
+                'daily_price_snapshot' => $roomDaily,
                 'status' => 'confirmed'
             ]);
 
