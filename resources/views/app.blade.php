@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Hotel Manager') }}</title>
+        <title inertia>{{ config('app.name', 'Exchange Hotel Manager') }}</title>
 
         <link rel="icon" href="/favicon.ico">
 

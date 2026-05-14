@@ -27,7 +27,7 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <GuestLayout>
-            <Head title="Login - Hotel Manager SaaS" />
+            <Head title="Login - Exchange Hotel Manager" />
 
             {/* Status Message */}
             {status && (
